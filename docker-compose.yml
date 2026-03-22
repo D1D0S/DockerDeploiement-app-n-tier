@@ -1,0 +1,40 @@
+version: "3.8"
+services:
+
+  mongo:
+    image: mongo
+    restart: always
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=saidider
+      - MONGO_INITDB_ROOT_PASSWORD=@saidider
+    ports:
+      - "27017:27017"
+    networks: 
+      - todo-app
+
+  backend:
+    build: ./backend
+    environment:
+      - mongo_url=mongodb://mongo:27017/saidider
+      - PORT : 3001
+    ports:
+      - "3001:3001"
+    networks: 
+      - todo-app
+    depends_on:
+      - mongo
+
+  frontend:
+    build: ./frontend
+    ports:
+      - "3000:3000"
+    networks: 
+      - todo-app
+    depends_on:
+      - backend
+
+networks:
+  todo-app:
+    driver: bridge
+volumes:
+  mongo-data:
