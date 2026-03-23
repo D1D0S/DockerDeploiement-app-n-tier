@@ -16,7 +16,6 @@ services:
     build: ./backend
     environment:
       - mongo_url=mongodb://mongo:27017/saidider
-      - PORT : 3001
     ports:
       - "3001:3001"
     networks: 
