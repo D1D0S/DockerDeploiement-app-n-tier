@@ -4,24 +4,23 @@ services:
   mongo:
     image: mongo
     restart: always
-    environment:
-      - MONGO_INITDB_ROOT_USERNAME=saidider
-      - MONGO_INITDB_ROOT_PASSWORD=@saidider
     ports:
       - "27017:27017"
     networks: 
       - todo-app
+    volumes:
+      - mongo-data:/data
 
   backend:
     build: ./backend
-    environment:
-      - mongo_url=mongodb://mongo:27017/saidider
     ports:
       - "3001:3001"
     networks: 
       - todo-app
     depends_on:
       - mongo
+    volumes:
+      - ./backend:/app
 
   frontend:
     build: ./frontend
